@@ -2,15 +2,15 @@ import 'package:currency_converter/src/models/currency_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeController {
-  List<CurrencyModel> currencies;
+  late List<CurrencyModel> currencies;
 
-  TextEditingController toText = TextEditingController();
-  TextEditingController fromText = TextEditingController();
+  final TextEditingController toText;
+  final TextEditingController fromText;
 
-  CurrencyModel toCurrency;
-  CurrencyModel fromCurrency;
+  late CurrencyModel toCurrency;
+  late CurrencyModel fromCurrency;
 
-  HomeController() {
+  HomeController({required this.toText, required this.fromText}) {
     currencies = CurrencyModel.getCurrencies();
     toCurrency = currencies[0];
     fromCurrency = currencies[1];
@@ -18,15 +18,23 @@ class HomeController {
 
   void convert() {
     String text = toText.text;
-    double value = double.tryParse(text) ?? 1.0;
+    double value = double.tryParse(text.replaceAll(',', '.')) ?? 1.0;
     double returnValue = 0;
 
     if (fromCurrency.name == 'Real') {
       returnValue = value * toCurrency.real;
     }
 
-    if (fromCurrency.name == 'Dolar') {
+    if (fromCurrency.name == 'Dólar') {
       returnValue = value * toCurrency.dolar;
+    } else if (fromCurrency.name == 'Dólar') {
+      returnValue = value * toCurrency.dolar;
+    } else if (fromCurrency.name == 'Euro') {
+      returnValue = value * toCurrency.euro;
+    } else if (fromCurrency.name == 'Bitcoin') {
+      returnValue = value * toCurrency.bitcoin;
     }
+
+    fromText.text = returnValue.toStringAsFixed(2);
   }
 }

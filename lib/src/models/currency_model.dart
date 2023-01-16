@@ -1,9 +1,9 @@
 class CurrencyModel {
-  final String name;
-  final double real;
-  final double dolar;
-  final double euro;
-  final double bitcoin;
+  String name;
+  double real;
+  double dolar;
+  double euro;
+  double bitcoin;
 
   CurrencyModel(
       {required this.name,
